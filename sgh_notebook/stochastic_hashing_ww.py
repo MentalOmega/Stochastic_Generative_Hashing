@@ -46,10 +46,8 @@ class VAE_stoc_neuron:
         self.decoder_model.summary()
 
     def cycle(self, input):
-        print(input.shape)
         input = tf.reshape(input, [-1, dim_input])
         hencode = self.encoder_model(input)
-        print(hencode.shape)
         hepsilon = tf.ones(shape=tf.shape(hencode), dtype=dtype) * .5
         yout, pout = DoublySN(hencode, hepsilon)
         # yout = tf.convert_to_tensor(yout,tf.float32)
@@ -111,6 +109,10 @@ def trian(train_model):
     with tf.Session() as sess:
         sess.run(init)
         if train_model:
+            if not os.path.exists(results_path + folder_name):
+                os.mkdir(results_path + folder_name)
+                os.mkdir(tensorboard_path)
+                os.mkdir(save_path)
             sess.run(train_images_dataset.iterator.initializer)
             # writer = tf.summary.FileWriter(logdir=tensorboard_path)
             for epoch in range(n_epochs):
@@ -125,20 +127,29 @@ def trian(train_model):
                         print("Epoch: {}, iteration: {}".format(epoch, _))
                         print("Cycle loss: {}".format(cycle_loss))
                     global_step+=1
+            print(save_path)
             saver.save(sess,save_path=save_path,global_step=global_step)
         else :
+            plt.figure(figsize = (60, 60))
+            img = np.hstack(train_images[:10])
+            plt.imshow(img,cmap=plt.cm.binary)
+            plt.axis('off')
+            plt.grid('off')
+            plt.show()
             all_results = os.listdir(results_path)
             all_results.sort()
             print(all_results)
             saver.restore(sess, save_path=tf.train.latest_checkpoint(
                 results_path + '/' + all_results[-1] + '/save/'))
             img = sess.run(xout,feed_dict={x:train_images[:batch_size]})
-            img = img[:10]
+            img = np.hstack(img[:10])
+            print(img.shape)
             plt.figure(figsize = (60, 60))
-            plt.imshow(img)
+            plt.imshow(img,cmap=plt.cm.binary)
             plt.axis('off')
             plt.grid('off')
             plt.show()
 
 if __name__ == "__main__":
-    trian(True)
+    trian(False)
+#     trian(True)    
