@@ -20,3 +20,4 @@ tensorboard_path = results_path + r"{}/tensorboard/".format(folder_name)
 save_path = results_path + r"{}/save/".format(folder_name)
 
 n_epochs = 50
+show_img_num = 10

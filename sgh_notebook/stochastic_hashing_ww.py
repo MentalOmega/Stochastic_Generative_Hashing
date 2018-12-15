@@ -10,6 +10,7 @@ from tensorflow import keras
 from tensorflow.examples.tutorials.mnist import input_data
 from tensorflow.python.framework import function
 from setting import *
+from Comparison_of_Manifold_Learning_methods import *
 
 
 @function.Defun(dtype, dtype, dtype, dtype)
@@ -105,9 +106,10 @@ def trian(train_model):
     global_step = 0
     # Saving the model
     saver = tf.train.Saver()
-    print("开始训练")
+    print("计算图构建完毕")
     with tf.Session() as sess:
         sess.run(init)
+        print("变量初始化完毕")
         if train_model:
             if not os.path.exists(results_path + folder_name):
                 os.mkdir(results_path + folder_name)
@@ -126,13 +128,13 @@ def trian(train_model):
                         # writer.add_summary(summary,global_step)
                         print("Epoch: {}, iteration: {}".format(epoch, _))
                         print("Cycle loss: {}".format(cycle_loss))
-                    global_step+=1
-            print(save_path)
-            saver.save(sess,save_path=save_path,global_step=global_step)
-        else :
-            plt.figure(figsize = (60, 60))
-            img = np.hstack(train_images[:10])
-            plt.imshow(img,cmap=plt.cm.binary)
+                    global_step += 1
+            print("保存路径:"+save_path)
+            saver.save(sess, save_path=save_path, global_step=global_step)
+        else:
+            plt.figure(figsize=(60, 60))
+            img = np.hstack(train_images[:show_img_num])
+            plt.imshow(img, cmap=plt.cm.binary)
             plt.axis('off')
             plt.grid('off')
             plt.show()
@@ -141,15 +143,17 @@ def trian(train_model):
             print(all_results)
             saver.restore(sess, save_path=tf.train.latest_checkpoint(
                 results_path + '/' + all_results[-1] + '/save/'))
-            img = sess.run(xout,feed_dict={x:train_images[:batch_size]})
-            img = np.hstack(img[:10])
+            img = sess.run(xout, feed_dict={x: train_images[:batch_size]})
+            Comparison_of_Manifold_Learning_methods(img,train_labels[:batch_size])
+            img = np.hstack(img[:show_img_num])
             print(img.shape)
-            plt.figure(figsize = (60, 60))
-            plt.imshow(img,cmap=plt.cm.binary)
+            plt.figure(figsize=(60, 60))
+            plt.imshow(img, cmap=plt.cm.binary)
             plt.axis('off')
             plt.grid('off')
             plt.show()
 
+
 if __name__ == "__main__":
     trian(False)
-#     trian(True)    
+#     trian(True)
