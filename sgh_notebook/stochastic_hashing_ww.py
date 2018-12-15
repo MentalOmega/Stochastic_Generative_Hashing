@@ -53,8 +53,9 @@ class VAE_stoc_neuron:
         yout, pout = DoublySN(hencode, hepsilon)
         # yout = tf.convert_to_tensor(yout,tf.float32)
         yout = tf.reshape(yout, [-1, dim_hidden])
-        print(yout.shape)
+        self.latent_code = yout
         # yout.set_shape([batch_size,dim_hidden])
+        print(yout.shape)
         output = self.decoder_model(yout)
         output = tf.reshape(output, [-1, image_h, image_w])
         return output
@@ -143,8 +144,12 @@ def trian(train_model):
             print(all_results)
             saver.restore(sess, save_path=tf.train.latest_checkpoint(
                 results_path + '/' + all_results[-1] + '/save/'))
-            img = sess.run(xout, feed_dict={x: train_images[:batch_size]})
-            Comparison_of_Manifold_Learning_methods(img,train_labels[:batch_size])
+            print("原始图片的降维可视化分布")
+            Comparison_of_Manifold_Learning_methods(train_images[:batch_size].reshape(-1,image_h*image_w),train_labels[:batch_size])
+            
+            img,latent_code = sess.run([xout,vae.latent_code], feed_dict={x: train_images[:batch_size]})
+            print("latent code的降维可视化分布")
+            Comparison_of_Manifold_Learning_methods(latent_code,train_labels[:batch_size])
             img = np.hstack(img[:show_img_num])
             print(img.shape)
             plt.figure(figsize=(60, 60))

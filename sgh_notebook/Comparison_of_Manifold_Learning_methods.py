@@ -25,7 +25,7 @@ def Comparison_of_Manifold_Learning_methods(X, color, n_neighbors=10):
     n_neighbors = 10
     n_components = 2
 
-    fig = plt.figure(figsize=(15, 8))
+    fig = plt.figure(figsize=(25, 25))
     plt.suptitle("Manifold Learning with %i points, %i neighbors"
                  % (n_points, n_neighbors), fontsize=14)
 
@@ -99,10 +99,10 @@ def Comparison_of_Manifold_Learning_methods(X, color, n_neighbors=10):
     ax.xaxis.set_major_formatter(NullFormatter())
     ax.yaxis.set_major_formatter(NullFormatter())
     plt.axis('tight')
-
+#     plt.colorbar()
     plt.show()
 
 
-n_points = 1000
-X, color = datasets.samples_generator.make_s_curve(n_points, random_state=0)
-Comparison_of_Manifold_Learning_methods(X, color)
+# n_points = 1000
+# X, color = datasets.samples_generator.make_s_curve(n_points, random_state=0)
+# Comparison_of_Manifold_Learning_methods(X, color)
