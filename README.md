@@ -1,3 +1,4 @@
+# 使用TensorFlow的Keras重构了SGH，并使用降维可视化中间的隐变量分布情况
 # Stochastic Generative Hashing
 
 #### Code for stochastic generative hashing
@@ -10,7 +11,7 @@ Reference:
 
 #### Prerequesites
 
-Tested under Ubuntu 16.04 LTS with Tensorflow 0.10.0rc0
+Tested under centos 7 with Tensorflow 1.12.0
 
 
 
