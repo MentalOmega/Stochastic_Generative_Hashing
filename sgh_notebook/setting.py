@@ -8,6 +8,7 @@ learning_rate = 1e-2
 max_iter = 5000
 image_h = 28
 image_w = 28
+image_d = 1
 
 alpha = 1e-3
 beta = 1e-3
@@ -21,3 +22,4 @@ save_path = results_path + r"{}/save/".format(folder_name)
 
 n_epochs = 50
 show_img_num = 10
+
