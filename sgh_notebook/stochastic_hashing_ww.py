@@ -81,7 +81,7 @@ class dataset:
         self.next_element = self.iterator.get_next()
 
 
-def trian(train_model):
+def train(train_model):
     vae = VAE_stoc_neuron()
     (train_images, train_labels), (test_images,
                                    test_labels) = keras.datasets.mnist.load_data()
@@ -161,5 +161,5 @@ def trian(train_model):
 
 
 if __name__ == "__main__":
-    trian(False)
+    train(False)
 #     trian(True)

@@ -47,7 +47,7 @@ class VAE_stoc_neuron:
         self.decoder_model.summary()
 
     def cycle(self, input):
-        input = tf.reshape(input, [-1, dim_input])
+        input = tf.reshape(input, [-1, image_w,image_h,1])
         hencode = self.encoder_model(input)
         hepsilon = tf.ones(shape=tf.shape(hencode), dtype=dtype) * .5
         yout, pout = DoublySN(hencode, hepsilon)
@@ -104,11 +104,11 @@ class dataset:
         self.next_element = self.iterator.get_next()
 
 
-def trian(train_model):
+def train(train_model):
     vae = VAE_stoc_neuron()
     (train_images, train_labels), (test_images,
                                    test_labels) = keras.datasets.mnist.load_data()
-    train_images = train_images/255.0
+    train_images = train_images/255.0 #图片归一化，加快训练
     test_images = test_images/255.0
     train_images_dataset = dataset(train_images)
 
@@ -184,5 +184,5 @@ def trian(train_model):
 
 
 if __name__ == "__main__":
-    trian(False)
+    train(False)
 #     trian(True)
